@@ -3,7 +3,13 @@
 
 name: Basic CI flow
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - master
+      - staging/**
+      - release/**
+  pull_request
 
 jobs:
   build:
