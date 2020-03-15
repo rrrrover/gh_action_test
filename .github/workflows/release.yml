@@ -5,8 +5,8 @@ name: Release CI flow
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v**
 
 jobs:
   build:
@@ -22,22 +22,34 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package -Pprod --file pom.xml
 
-      # - name: pack release.zip
-      #   run: zip -j release.zip target/app.jar target/static.zip
+      - name: Create Release
+        id: create_release
+        uses: monkeyWie/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
 
-      - name: Upload jar
-        uses: actions/upload-artifact@v1.0.0
+      - name: Upload app.jar
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          # Artifact name
-          name: app
-          # Directory containing files to upload
-          path: target/app.jar
-      
-      - name: Upload static file
-        uses: actions/upload-artifact@v1.0.0
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./target/app.jar
+          asset_name: app.jar
+          asset_content_type: application/jar
+
+      - name: Upload static.zip
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          # Artifact name
-          name: static
-          # Directory containing files to upload
-          path: target/static.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./target/static.zip
+          asset_name: static.zip
+          asset_content_type: application/zip
 
