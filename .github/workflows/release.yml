@@ -22,13 +22,22 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package -Pprod --file pom.xml
 
-      - name: pack release.zip
-        run: zip -j release.zip target/app.jar target/static.zip
+      # - name: pack release.zip
+      #   run: zip -j release.zip target/app.jar target/static.zip
 
-      - name: Upload artifact
+      - name: Upload jar
         uses: actions/upload-artifact@v1.0.0
         with:
           # Artifact name
-          name: release
+          name: app
           # Directory containing files to upload
-          path: release.zip
+          path: target/app.jar
+      
+      - name: Upload static file
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          # Artifact name
+          name: static
+          # Directory containing files to upload
+          path: target/static.zip
+
