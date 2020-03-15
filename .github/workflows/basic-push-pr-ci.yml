@@ -9,7 +9,7 @@ on:
       - master
       - staging/**
       - release/**
-  pull_request
+  pull_request:
 
 jobs:
   build:
