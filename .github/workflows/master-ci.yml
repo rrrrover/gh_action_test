@@ -5,7 +5,8 @@ name: Master CI flow
 
 on:
   push:
-    master
+    branches:
+      - master
 
 jobs:
   build:
@@ -19,4 +20,4 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run: mvn -B clean package -Pprod --file pom.xml
+        run: mvn -B clean test --file pom.xml
