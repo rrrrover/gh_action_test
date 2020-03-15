@@ -32,4 +32,4 @@ jobs:
           # Artifact name
           name: app.war
           # Directory containing files to upload
-          path: target/*.war
+          path: target/**.war
