@@ -4,9 +4,8 @@
 name: Basic CI flow
 
 on:
-  push:
+  pull_request:
     branches-ignore:
-      - develop/**
       - release/**
       - master
 

@@ -6,7 +6,6 @@ name: Pull Request CI flow
 on:
   pull_request:
     branches:
-      - develop/**
       - release/**
       - master
 
