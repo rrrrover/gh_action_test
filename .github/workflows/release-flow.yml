@@ -35,7 +35,7 @@ jobs:
           # Directory containing files to upload
           path: target/app.jar
 
-      - name: Upload jar
+      - name: Upload static resources
         uses: actions/upload-artifact@v1.0.0
         with:
           # Artifact name
